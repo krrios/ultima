@@ -4,3 +4,5 @@ ipch/
 *.sdf
 *.suo
 *.vcxproj.*
+*.ncb
+*.user
