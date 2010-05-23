@@ -82,11 +82,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="config.cpp" />
     <ClCompile Include="io\binaryreader.cpp" />
     <ClCompile Include="io\indexfile.cpp" />
     <ClCompile Include="ultima.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="config.h" />
     <ClInclude Include="io\binaryreader.h" />
     <ClInclude Include="io\indexfile.h" />
     <ClInclude Include="ultima.h" />

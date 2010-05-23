@@ -2,6 +2,7 @@
 #define ULTIMA_INDEXFILE_H_
 
 #include "../ultima.h"
+#include <fstream>
 #include <vector>
 
 #ifdef WIN32
@@ -27,19 +28,19 @@ class IndexFile
 
 		~IndexFile();
 		
-		bool Open(const char *path);
+		bool Open(const std::string &path);
 
 		bool Close();
 		
 		IndexEntry * GetEntry(int id);
 
-		int count() const { return entries.size(); }
+		int entry_count() const { return entries_.size(); }
 
 	private:
 		
-		FILE *file;
+		std::ifstream file_;
 		
-		std::vector<IndexEntry> entries;
+		std::vector<IndexEntry> entries_;
 };
 
 #endif

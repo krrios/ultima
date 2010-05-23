@@ -17,9 +17,7 @@ class BinaryReader
 
 		BinaryReader(uint8_t *&source, uint32_t length);
 
-		BinaryReader(std::vector<uint8_t> &source);
-
-		~BinaryReader();
+		BinaryReader(const std::vector<uint8_t> &source);
 
 		bool Seek(int32_t offset, SeekOrigin origin = CURRENT);
 
@@ -62,11 +60,9 @@ class BinaryReader
 			return *reinterpret_cast<T *>(ptr);
 		}
 
-		uint32_t position;
+		std::vector<uint8_t> data_;
 
-		uint32_t length;
-
-		uint8_t *data;
+		uint32_t position_;
 };
 
 #endif

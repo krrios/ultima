@@ -1,7 +1,7 @@
 #include "indexfile.h"
 
 IndexFile::IndexFile()
-	: file(NULL)
+	: file_()
 {
 }
 
@@ -10,42 +10,40 @@ IndexFile::~IndexFile()
 	Close();
 }
 
-bool IndexFile::Open(const char *path)
+bool IndexFile::Open(const std::string &path)
 {
-	file = fopen(path, "rb");
+	file_.open(path, std::ios::binary | std::ios::in | std::ios::ate);
 
-	if (file == NULL)
+	if (file_.is_open() == false)
 	{
 		return false;
 	}
+	
+	entries_.resize(static_cast<size_t>(file_.tellg() / sizeof(IndexEntry)));
 
-	fseek(file, 0, SEEK_END);
-	entries.resize(ftell(file) / 12);
-	fseek(file, 0, SEEK_SET);
-
-	fread(&entries[0], sizeof(IndexEntry), entries.size(), file);
+	file_.seekg(0, std::ios::beg);
+	file_.read(reinterpret_cast<char *>(&entries_[0]), entries_.size() * sizeof(IndexEntry));
 
 	return true;
 }
 
 bool IndexFile::Close()
 {
-	if (file != NULL && fclose(file) != 0)
+	if (file_.is_open())
 	{
-		return false;
+		file_.close();
+		return true;
 	}
 
-	file = NULL;
-
-	return true;
+	return false;
 }
 
 IndexEntry * IndexFile::GetEntry(int id)
 {
-	if (id < 0 || id >= count())
+	if (id < 0 || id >= entry_count())
 	{
 		return NULL;
 	}
 
-	return &entries[id];
+	return &entries_[id];
 }
